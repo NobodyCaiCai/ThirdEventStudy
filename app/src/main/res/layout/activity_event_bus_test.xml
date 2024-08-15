@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <Button
+        android:id="@+id/btn_eventbus_emit"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:text="点我发射message吧!" />
+
+    <Button
+        android:id="@+id/btn_open_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="left"
+        android:gravity="center"
+        android:text="打开空的Activity，测试粘性消息"/>
+
+    <FrameLayout
+        android:id="@+id/containerFragment"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="300dp"/>
+
+</LinearLayout>
