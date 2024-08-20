@@ -8,7 +8,7 @@ apply(plugin = "org.jetbrains.kotlin.kapt")
 android {
     namespace = "com.caicai.thirdeventstudy"
     compileSdk = 34
-
+    kapt { generateStubs = true }
     defaultConfig {
         applicationId = "com.caicai.thirdeventstudy"
         minSdk = 24
@@ -77,6 +77,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     /** 添加第三方库 **/
-    implementation(libs.eventbus)
-    kapt("org.greenrobot:eventbus-annotation-processor:3.3.1")
+//    implementation(libs.eventbus)
+//    kapt("org.greenrobot:eventbus-annotation-processor:3.3.1")
+
+    // 代码引入
+    implementation(project(":eventbus-java"))
+    implementation(project(":eventbus-android"))
+    kapt(project(":eventbus-annotation-processor"))
 }

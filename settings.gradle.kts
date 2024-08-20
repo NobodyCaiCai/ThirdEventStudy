@@ -21,4 +21,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "ThirdEventStudy"
 include(":app")
- 
+
+include (":EventBus")
+include (":eventbus-android")
+include (":EventBusAnnotationProcessor")
+
+project(":EventBus").name = "eventbus-java"
+project(":EventBusAnnotationProcessor").name = "eventbus-annotation-processor"

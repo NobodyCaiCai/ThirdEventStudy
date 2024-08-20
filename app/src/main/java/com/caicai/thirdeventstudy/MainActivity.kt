@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.activity.ComponentActivity
-import com.caicai.thirdeventstudy.eventBus.EventBusEmptyActivity
 import com.caicai.thirdeventstudy.eventBus.EventBusTestActivity
-
 
 class MainActivity : ComponentActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -5,11 +5,23 @@
     android:orientation="vertical"
     android:padding="12dp">
 
-    <Button
-        android:id="@+id/btn_eventbus_emit"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:text="点我发射message吧!" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_eventbus_emit"
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:text="点我发射message吧!" />
+
+        <Button
+            android:id="@+id/btn_eventbus_text"
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:text="我还没被改过" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_open_empty"
@@ -17,12 +29,12 @@
         android:layout_height="60dp"
         android:layout_gravity="left"
         android:gravity="center"
-        android:text="打开空的Activity，测试粘性消息"/>
+        android:text="打开空的Activity，测试粘性消息" />
 
     <FrameLayout
         android:id="@+id/containerFragment"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="300dp"/>
+        android:layout_height="300dp"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>
