@@ -30,6 +30,9 @@
 
         <activity android:theme="@style/Theme.AppCompat.Light"
             android:name=".eventBus.EventBusEmptyActivity" />
+
+        <activity android:theme="@style/Theme.AppCompat.Light"
+            android:name=".eventBus.EventBusTestActivitySon" />
     </application>
 
 </manifest>
