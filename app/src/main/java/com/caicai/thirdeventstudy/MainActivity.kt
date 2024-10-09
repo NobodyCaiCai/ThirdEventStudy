@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import androidx.activity.ComponentActivity
 import com.caicai.thirdeventstudy.eventBus.EventBusTestActivity
+import com.caicai.thirdeventstudy.eventBus.EventBusTestActivitySon
 
 class MainActivity : ComponentActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +18,7 @@ class MainActivity : ComponentActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_eventbus -> {
-                startActivity(Intent(this, EventBusTestActivity::class.java))
+                startActivity(Intent(this, EventBusTestActivitySon::class.java))
             }
         }
     }

@@ -147,6 +147,17 @@ class SubscriberMethodFinder {
         return getMethodsAndRelease(findState);
     }
 
+    /**
+     * 1. getDeclaredMethods：返回类声明的所有方法，包括公共（public）、保护（protected）、默认（包）访问和私有（private）方法，但不包括继承的方法,
+     * 不包括从超类继承的方法，只包括当前类声明的方法
+     * <p>
+     * 2. getMethods：返回类的所有公共（public）方法，包括从父类继承的公共方法。
+     * 包括从超类继承的所有公共方法，以及接口中声明的方法（如果类实现了接口）。
+     * <p>
+     * 3. 使用场景：
+     * getDeclaredMethods：当你需要访问或操作类中声明的特定方法时使用，不论它们的访问修饰符是什么。
+     * getMethods：当你需要访问类的所有公共方法时使用，这通常用于反射调用，不需要关心方法的声明位置。
+     */
     private void findUsingReflectionInSingleClass(FindState findState) {
         Method[] methods;
         try {
@@ -165,16 +176,21 @@ class SubscriberMethodFinder {
                 }
                 throw new EventBusException(msg, error);
             }
+            // 因为getMethods()方法返回的是类的所有公共方法，包括从父类继承的公共方法，所以需要跳过父类方法的寻找
             findState.skipSuperClasses = true;
         }
         for (Method method : methods) {
             int modifiers = method.getModifiers();
             if ((modifiers & Modifier.PUBLIC) != 0 && (modifiers & MODIFIERS_IGNORE) == 0) {
+                // 该方法是public方法，并且不是static、abstract、bridge、synthetic方法
                 Class<?>[] parameterTypes = method.getParameterTypes();
                 if (parameterTypes.length == 1) {
+                    // 方法的参数数量只有一个
                     Subscribe subscribeAnnotation = method.getAnnotation(Subscribe.class);
                     if (subscribeAnnotation != null) {
+                        // 方法上有Subscribe注解
                         Class<?> eventType = parameterTypes[0];
+                        // 拿到方法的参数Class类型
                         if (findState.checkAdd(method, eventType)) {
                             ThreadMode threadMode = subscribeAnnotation.threadMode();
                             findState.subscriberMethods.add(new SubscriberMethod(method, eventType, threadMode,
@@ -226,9 +242,14 @@ class SubscriberMethodFinder {
             subscriberInfo = null;
         }
 
+        /**
+         * 根据 方法 和 事件类型，检查是否可以添加到 subscriberMethods 中,两个参数都是全限定类名；
+         */
         boolean checkAdd(Method method, Class<?> eventType) {
             // 2 level check: 1st level with event type only (fast), 2nd level with complete signature when required.
             // Usually a subscriber doesn't have methods listening to the same event type.
+
+            // hashMap put方法返回的是之前的value，如果之前没有value则返回null
             Object existing = anyMethodByEventType.put(eventType, method);
             if (existing == null) {
                 return true;
@@ -246,15 +267,19 @@ class SubscriberMethodFinder {
         }
 
         private boolean checkAddWithMethodSignature(Method method, Class<?> eventType) {
+            // 拼接key: 方法名 > 事件类型类名， 这两个都不是全限定名
             methodKeyBuilder.setLength(0);
             methodKeyBuilder.append(method.getName());
             methodKeyBuilder.append('>').append(eventType.getName());
 
             String methodKey = methodKeyBuilder.toString();
+            // getDeclaringClass()：这个方法是 Method 类的一个实例方法，
+            // 当你对一个方法对象调用这个方法时，它会返回定义这个方法的类的 Class 对象
             Class<?> methodClass = method.getDeclaringClass();
             Class<?> methodClassOld = subscriberClassByMethodKey.put(methodKey, methodClass);
             if (methodClassOld == null || methodClassOld.isAssignableFrom(methodClass)) {
-                // Only add if not already found in a sub class
+                // 如果methodClassOld是null，说明之前没有存储过，直接返回true
+                // methodClassOld是methodClass的父类,
                 return true;
             } else {
                 // Revert the put, old class is further down the class hierarchy

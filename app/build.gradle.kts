@@ -80,7 +80,7 @@ dependencies {
 //    implementation(libs.eventbus)
 //    kapt("org.greenrobot:eventbus-annotation-processor:3.3.1")
 
-    // 代码引入
+    // 源码依赖
     implementation(project(":eventbus-java"))
     implementation(project(":eventbus-android"))
     kapt(project(":eventbus-annotation-processor"))

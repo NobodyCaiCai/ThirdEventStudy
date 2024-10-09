@@ -10,10 +10,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.caicai.thirdeventstudy.R
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.NoSubscriberEvent
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class EventBusTestActivity : AppCompatActivity(), View.OnClickListener {
+
+open class EventBusTestActivity : AppCompatActivity(), View.OnClickListener {
 
     private var mChangeText: TextView? = null
 
@@ -38,8 +40,8 @@ class EventBusTestActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onStart() {
-        EventBus.getDefault().register(this)
         super.onStart()
+        EventBus.getDefault().register(this)
     }
 
     override fun onStop() {
@@ -48,13 +50,23 @@ class EventBusTestActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true, priority = 11)
-    fun handleEventBusMessage(msg: MessageEvent) {
+    open fun handleEventBusMessage(msg: MessageEvent) {
         Toast.makeText(this, "Activity 收到MessageEvent了， ${msg.message}", Toast.LENGTH_SHORT)
             .show()
         mChangeText?.text = "我被改过了"
         EventBus.getDefault().removeStickyEvent(msg)
-        EventBus.getDefault().cancelEventDelivery(msg)
+//        EventBus.getDefault().cancelEventDelivery(msg)
     }
+
+    @Subscribe(threadMode = ThreadMode.POSTING, sticky = true, priority = 11)
+    open fun handleEventBusMessage2(msg: MessageEvent) {
+        Toast.makeText(this, "Activity 收到MessageEvent了， ${msg.message}", Toast.LENGTH_SHORT)
+            .show()
+        mChangeText?.text = "我被改过了"
+        EventBus.getDefault().removeStickyEvent(msg)
+//        EventBus.getDefault().cancelEventDelivery(msg)
+    }
+
 
     override fun onClick(v: View?) {
         when (v?.id) {

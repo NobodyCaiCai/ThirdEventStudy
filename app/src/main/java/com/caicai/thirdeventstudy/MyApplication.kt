@@ -8,7 +8,13 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        EventBus.builder().logNoSubscriberMessages(false).sendNoSubscriberEvent(false)
-            .addIndex(MyEventBusIndex()).throwSubscriberException(false).installDefaultEventBus()
+        EventBus.builder()
+            .addIndex(MyEventBusIndex())
+            .logNoSubscriberMessages(false)
+            .sendNoSubscriberEvent(false)
+            .ignoreGeneratedIndex(false)
+            .throwSubscriberException(false)
+            .eventInheritance(false)
+            .installDefaultEventBus()
     }
 }
