@@ -32,7 +32,7 @@ class EventBusFragment: Fragment() {
         EventBus.getDefault().unregister(this)
     }
 
-    @Subscribe(threadMode = ThreadMode.POSTING, priority = 10)
+    @Subscribe(threadMode = ThreadMode.POSTING, sticky = true ,priority = 10)
     fun handleEventBusMessage(msg: MessageEvent) {
         Toast.makeText(activity, "Fragment 收到消息: ${msg.message}", Toast.LENGTH_LONG).show()
     }

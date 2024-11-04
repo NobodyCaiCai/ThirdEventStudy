@@ -8,7 +8,7 @@ import org.greenrobot.eventbus.ThreadMode
 class EventBusTestActivitySon: EventBusTestActivity() {
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true, priority = 11)
     override fun handleEventBusMessage(msg: MessageEvent) {
-        Toast.makeText(this, "Activity 收到MessageEvent了， ${msg.message}", Toast.LENGTH_SHORT)
+        Toast.makeText(this, "EventBusTestActivitySon Activity 收到MessageEvent了， ${msg.message}", Toast.LENGTH_SHORT)
             .show()
     }
 }

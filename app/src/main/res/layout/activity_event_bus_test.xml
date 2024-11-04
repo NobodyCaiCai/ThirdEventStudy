@@ -31,6 +31,12 @@
         android:gravity="center"
         android:text="打开空的Activity，测试粘性消息" />
 
+    <Button
+        android:id="@+id/btn_eventbus_open_test2"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:text="open_test2!" />
+
     <FrameLayout
         android:id="@+id/containerFragment"
         android:layout_width="match_parent"

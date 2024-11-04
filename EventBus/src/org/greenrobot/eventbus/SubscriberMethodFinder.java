@@ -277,11 +277,13 @@ class SubscriberMethodFinder {
             // 当你对一个方法对象调用这个方法时，它会返回定义这个方法的类的 Class 对象
             Class<?> methodClass = method.getDeclaringClass();
             Class<?> methodClassOld = subscriberClassByMethodKey.put(methodKey, methodClass);
+            // isAssignableFrom 前面是父类，则返回true； 父类的同名方法和子类冲突时，会被过滤掉
             if (methodClassOld == null || methodClassOld.isAssignableFrom(methodClass)) {
                 // 如果methodClassOld是null，说明之前没有存储过，直接返回true
-                // methodClassOld是methodClass的父类,
+                // methodClassOld是methodClass的父类,或者是同类，返回true
                 return true;
             } else {
+                // 父类的同名方法和子类冲突时，父类方法会被过滤掉
                 // Revert the put, old class is further down the class hierarchy
                 subscriberClassByMethodKey.put(methodKey, methodClassOld);
                 return false;

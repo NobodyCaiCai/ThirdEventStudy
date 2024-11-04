@@ -37,6 +37,7 @@ open class EventBusTestActivity : AppCompatActivity(), View.OnClickListener {
         mChangeText = findViewById(R.id.btn_eventbus_text)
         findViewById<Button>(R.id.btn_eventbus_emit).setOnClickListener(this)
         findViewById<Button>(R.id.btn_open_empty).setOnClickListener(this)
+        findViewById<Button>(R.id.btn_eventbus_open_test2).setOnClickListener(this)
     }
 
     override fun onStart() {
@@ -51,18 +52,18 @@ open class EventBusTestActivity : AppCompatActivity(), View.OnClickListener {
 
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true, priority = 11)
     open fun handleEventBusMessage(msg: MessageEvent) {
-        Toast.makeText(this, "Activity 收到MessageEvent了， ${msg.message}", Toast.LENGTH_SHORT)
+        Toast.makeText(this, "parent Activity 收到MessageEvent了， ${msg.message}", Toast.LENGTH_SHORT)
             .show()
-        mChangeText?.text = "我被改过了"
+        mChangeText?.text = "我被改过了33"
         EventBus.getDefault().removeStickyEvent(msg)
 //        EventBus.getDefault().cancelEventDelivery(msg)
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true, priority = 11)
     open fun handleEventBusMessage2(msg: MessageEvent) {
-        Toast.makeText(this, "Activity 收到MessageEvent了， ${msg.message}", Toast.LENGTH_SHORT)
+        Toast.makeText(this, "parent Activity 收到MessageEvent2了， ${msg.message}", Toast.LENGTH_SHORT)
             .show()
-        mChangeText?.text = "我被改过了"
+//        mChangeText?.text = "我被改过了2"
         EventBus.getDefault().removeStickyEvent(msg)
 //        EventBus.getDefault().cancelEventDelivery(msg)
     }
@@ -71,16 +72,16 @@ open class EventBusTestActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_eventbus_emit -> {
-//                Thread {
-//
-//                }.start()
-
                 EventBus.getDefault().post(MessageEvent("我是菜菜"))
                 Log.i(TAG, "this thread: ${Thread.currentThread().name}")
             }
 
             R.id.btn_open_empty -> {
                 startActivity(Intent(this, EventBusEmptyActivity::class.java))
+            }
+
+            R.id.btn_eventbus_open_test2 -> {
+                startActivity(Intent(this, EventBusTestActivitySon2::class.java))
             }
         }
     }
